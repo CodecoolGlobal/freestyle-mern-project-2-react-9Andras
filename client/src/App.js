@@ -8,6 +8,7 @@ import MainPage from './components/MainPage';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   const handleLogin = (id) => {
     setIsLoggedIn(true);
@@ -17,17 +18,22 @@ function App() {
   const handleLogOut = () => {
     setIsLoggedIn(false);
     setUserId(null);
+  }
 
+  const toggleSignUp = () => {
+    setShowSignUp(!showSignUp);
   }
 
   return (
-    <div >
+    <div>
       <h1>WELCOME! </h1>
       <h1>Dear movie fanatics!</h1>
       {!isLoggedIn && (
         <>
-          <UserSignUp />
-          <UserSignIn onLogin={handleLogin} />
+          {showSignUp ?
+            <UserSignUp onSignUpComplete={toggleSignUp} /> :
+            <UserSignIn onLogin={handleLogin} onSignUp={toggleSignUp} />
+          }
         </>
       )}
       {isLoggedIn && (
@@ -41,3 +47,4 @@ function App() {
 }
 
 export default App;
+

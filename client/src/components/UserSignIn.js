@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-function UserSignIn({ onLogin }) {
+function UserSignIn({ onLogin, onSignUp }) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -72,6 +72,8 @@ function UserSignIn({ onLogin }) {
         </label>
         <button id="submitlogin" type="submit">Login</button>
       </form>
+      <p>Don't have an account? </p>
+      <a href="#" onClick={onSignUp}>Click here to sign up!</a>
     </div>
   )
 }

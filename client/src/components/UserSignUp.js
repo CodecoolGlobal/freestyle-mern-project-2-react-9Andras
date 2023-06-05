@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-function UserSignUp() {
+function UserSignUp({ onSignUpComplete }) {
   const [name, setName] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +30,7 @@ function UserSignUp() {
       if (jsonResponse.success) {
         setRegistrationSuccess(true);
         setRegisteredUsername(jsonResponse.username);
+        onSignUpComplete();
       }
     } catch (error) {
       console.error(error);
