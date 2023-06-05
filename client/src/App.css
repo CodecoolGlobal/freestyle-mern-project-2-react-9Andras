@@ -7,11 +7,11 @@
 }
 
 #signin {
-  float: left;
+  margin: 20px auto;
 }
 
 #signup {
-  float: right;
+  margin: 20px auto;
 }
 
 .form-container {
@@ -20,12 +20,12 @@
   color: white;
   font-weight: bold;
   text-decoration: underline;
-  margin: 20px;
   padding: 20px;
   border: 3px solid #d2b48c;
   width: 300px;
   margin: 10 auto;
   text-align: center;
+
 }
 
 h1,
