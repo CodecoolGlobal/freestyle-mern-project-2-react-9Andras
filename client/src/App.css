@@ -82,12 +82,17 @@ h2 {
   width: 500px;
   font-weight: bold;
 }
+.poster{
+  float: left;
+  width: 300px;
+}
 
 .search.movies-container {
   float: left;
   width: 300px;
   font-weight: bold;
 }
+
 
 .userprofile-container {
   float: left;

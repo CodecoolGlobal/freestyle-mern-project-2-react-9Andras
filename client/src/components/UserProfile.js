@@ -108,7 +108,6 @@ function UserProfile({ userId, onLogout }) {
               <button type="submit">Update Username</button>
             </form>
           )}
-          <button>Favorite Movies</button>
           <br />
           <button onClick={fetchReviewedMovies}>Reviewed Movies</button>
           <br />

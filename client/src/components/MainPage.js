@@ -8,12 +8,14 @@ function MainPage({ userId }) {
   const [comment, setComment] = useState('')
   const [clickedCommentButton, setClickedCommentButton] = useState(false);
   const [clickedOfferButton, setClickedOfferButton] = useState(0);
+  const [apiDataPoster, setApiDataPoster] = useState()
 
   const fetchMovies = async (title) => {
     try {
       const response = await fetch(`http://www.omdbapi.com/?apikey=8d6938b&t=${title}`);
       const movieData = await response.json();
       setApiData(movieData);
+      setApiDataPoster(movieData.Poster)
       console.log(movieData);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -88,6 +90,13 @@ function MainPage({ userId }) {
   const offerButton = () => {
       setClickedOfferButton(clickedOfferButton+1);
     };
+
+    const divStyle = {
+      backgroundImage: apiDataPoster,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    };
+    console.log(apiDataPoster)
     
 
   return (
@@ -113,8 +122,10 @@ function MainPage({ userId }) {
         </div>
         {isMovieInfoVisible && (
           <>
+          
             <div className="box-model">
               <div id="search.movies-container">
+              
                 <div>
                   <u>Title:</u> {apiData?.Title}
                 </div>
@@ -127,6 +138,10 @@ function MainPage({ userId }) {
                 <div>
                   <u>Starring:</u> {apiData?.Actors}
                 </div>
+                <div>
+                  <u>Promotional poster:</u> 
+                </div>
+                <img id="poster" src={apiDataPoster} />
                 <br />
                 <div>
                   <u>Plot:</u>
