@@ -6,16 +6,31 @@ const User = require('./model/User.js');
 
 const { MONGO_URL, PORT = 5000 } = process.env;
 
-const app = express();
-app.use(express.json());
-
-
 if (!MONGO_URL) {
   console.error('Missing MONGO_URL environment variable');
   process.exit(1);
 }
 
-app.get('/api/users/', async (req, res) => {
+const app = express();
+app.use(express.json());
+
+//Server starter
+async function startServer() {
+  try {
+    console.log('Connecting to the database...');
+    await mongoose.connect(MONGO_URL);
+    console.log('Connected to the database successfully!');
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+}
+
+//Controllers
+const getUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -23,10 +38,9 @@ app.get('/api/users/', async (req, res) => {
     console.error(error);
     res.status(400).json({ success: false });
   }
-});
+};
 
-// User saving endpoint
-app.post('/api/users', async (req, res) => {
+const saveUser = async (req, res) => {
   try {
     console.log(req.body);
     const { name, userName, password } = req.body;
@@ -40,16 +54,15 @@ app.post('/api/users', async (req, res) => {
       updatedAt,
     });
     const savedUser = await users.save();
-    savedUser.password = undefined;
+    savedUser.password = null;
     res.json(savedUser);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
-});
+};
 
-// User sign in endpoint
-app.post('/api/users/login', async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { userName, password } = req.body;
     const user = await User.findOne({ userName });
@@ -66,23 +79,22 @@ app.post('/api/users/login', async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Server error.' });
   }
-});
+};
 
-// User profile request handling
-app.get('/api/users/:id', async (req, res) => {
+const getUserProfile = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
-    user.password = undefined;
+    user.password = null;
     res.json(user);
     console.log(user);
   } catch (error) {
     console.error(error);
     res.status(400).json({ success: false });
   }
-});
+};
 
-app.get('/api/users/:id/reviewedMovies', async (req, res) => {
+const getReviewedMovies = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
@@ -92,41 +104,39 @@ app.get('/api/users/:id/reviewedMovies', async (req, res) => {
     console.error(error);
     res.status(400).json({ success: false });
   }
-});
+};
 
-//Review adding endpoint
-app.patch('/api/users/review/:id', async (req, res) => {
+const addReview = async (req, res) => {
   try {
     const { id } = req.params;
     const { movieTitle, comment } = req.body;
     const user = await User.findByIdAndUpdate(id, {
       $push: { reviewedMovies: { movieTitle, comment } },
     }, { new: true });
-    user.password = undefined;
+    user.password = null;
     res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error.' });
   }
-});
+};
 
-//Edit username endpoint
-app.patch('/api/users/:id/username', async (req, res) => {
+const editUsername = async (req, res) => {
   try {
     const { id } = req.params;
     const { newUserName } = req.body;
     const user = await User.findByIdAndUpdate(id, {
       $set: { userName: newUserName },
     }, { new: true });
-    user.password = undefined;
+    user.password = null;
     res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error.' });
   }
-});
+};
 
-app.delete('/api/users/:id', async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
     await User.findByIdAndDelete(id);
@@ -135,20 +145,23 @@ app.delete('/api/users/:id', async (req, res) => {
     console.error(error);
     res.status(400).json({ success: false });
   }
-});
+};
 
-async function startServer() {
-  try {
-    console.log('Connecting to the database...');
-    await mongoose.connect(MONGO_URL);
-    console.log('Connected to the database successfully!');
-    app.listen(PORT, () => {
-      console.log(`Server is listening on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-}
+//Routes
+app.get('/api/users/', getUsers);
+
+app.post('/api/users', saveUser);
+
+app.post('/api/users/login', loginUser);
+
+app.get('/api/users/:id', getUserProfile);
+
+app.get('/api/users/:id/reviewedMovies', getReviewedMovies);
+
+app.patch('/api/users/review/:id', addReview);
+
+app.patch('/api/users/:id/username', editUsername);
+
+app.delete('/api/users/:id', deleteUser);
 
 startServer();
