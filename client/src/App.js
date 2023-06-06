@@ -23,6 +23,9 @@ function App() {
   const toggleSignUp = () => {
     setShowSignUp(!showSignUp);
   }
+  const handleBackToLogin = () => {
+    setShowSignUp(false);
+  }
 
   return (
     <div>
@@ -31,7 +34,7 @@ function App() {
           <h1>WELCOME! </h1>
           <h1>Dear movie fanatics!</h1>
           {showSignUp ?
-            <UserSignUp onSignUpComplete={toggleSignUp} /> :
+            <UserSignUp onSignUpComplete={toggleSignUp} onBackToLogin={handleBackToLogin} /> :
             <UserSignIn onLogin={handleLogin} onSignUp={toggleSignUp} />
           }
         </>

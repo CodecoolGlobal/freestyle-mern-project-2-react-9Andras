@@ -98,7 +98,7 @@ const getReviewedMovies = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
-    const reviewedMovies = user.reviewedMovies;
+    const reviewedMovies = user.reviewedMovies.sort();
     res.json(reviewedMovies);
   } catch (error) {
     console.error(error);

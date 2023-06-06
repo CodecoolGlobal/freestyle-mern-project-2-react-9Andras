@@ -44,6 +44,11 @@ function UserSignIn({ onLogin, onSignUp }) {
     setShowPassword(!showPassword);
   };
 
+  const handleSignUpClick = (e) => {
+    e.preventDefault();
+    onSignUp();
+  };
+
 
   return (
     <div className="form-container" id="signin">
@@ -72,8 +77,16 @@ function UserSignIn({ onLogin, onSignUp }) {
         </label>
         <button id="submitlogin" type="submit">Login</button>
       </form>
-      <p>Don't have an account? </p>
-      <a href="#" onClick={onSignUp}>Click here to sign up!</a>
+      <p>
+        Don't have an account?{" "}
+      </p>
+      <span
+        className="clickable-text"
+        onClick={handleSignUpClick}
+      >
+        Click here to sign up!
+      </span>
+
     </div>
   )
 }

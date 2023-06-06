@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-function UserSignUp({ onSignUpComplete }) {
+function UserSignUp({ onSignUpComplete, onBackToLogin }) {
   const [name, setName] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -41,37 +41,42 @@ function UserSignUp({ onSignUpComplete }) {
     setShowPassword(!showPassword);
   };
 
+  const handleBackToLoginClick = () => {
+    onBackToLogin();
+  }
+
   return (
     <div className="form-container" id="signup">
       <h3>Create your account here!</h3>
       {!registrationSuccess ? (
-        <form onSubmit={handleSignUpSubmit}>
-          <label>
-            Name:
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-          </label>
-          <label>
-            User Name:
-            <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} required />
-          </label>
-          <label>
-            Password:
-            <div className="password-input-container">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <FontAwesomeIcon
-                icon={showPassword ? faEye : faEyeSlash}
-                className="password-toggle-icon"
-                onClick={handleTogglePasswordVisibility}
-              />
-            </div>
-          </label>
-          <button id="submitcomplete" type="submit">Complete sign up</button>
-        </form>
+        <>
+          <form onSubmit={handleSignUpSubmit}>
+            <label>
+              Name:
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            </label>
+            <label>
+              User Name:
+              <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} required />
+            </label>
+            <label>
+              Password:
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required />
+                <FontAwesomeIcon
+                  icon={showPassword ? faEye : faEyeSlash}
+                  className="password-toggle-icon"
+                  onClick={handleTogglePasswordVisibility} />
+              </div>
+            </label>
+            <button id="submitcomplete" type="submit">Complete sign up</button>
+          </form>
+          <span className="clickable-text" onClick={handleBackToLoginClick}>Back to Login</span>
+        </>
       ) : (
         <div>
           <p>Thank you for registering, {registeredUsername}! Have fun!</p>
