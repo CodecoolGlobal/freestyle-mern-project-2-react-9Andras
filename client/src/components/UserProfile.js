@@ -11,7 +11,7 @@ function UserProfile({ userId, onLogout }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/users/${userId}`);
+        const response = await fetch(`/api/users/${userId}`);
         const userData = await response.json();
         setUserData(userData);
         //console.log(userData);
@@ -29,7 +29,7 @@ function UserProfile({ userId, onLogout }) {
   const deleteProfile = async (id) => {
     if (window.confirm('Confirm deletion of your profile')) {
       try {
-        await fetch(`http://localhost:3001/api/users/${id}`, {
+        await fetch(`/api/users/${id}`, {
           method: 'DELETE',
         });
         onLogout();
@@ -48,7 +48,7 @@ function UserProfile({ userId, onLogout }) {
       setShowReviewedMovies(false);
     } else {
       try {
-        const response = await fetch(`http://localhost:3001/api/users/${userId}/reviewedMovies`);
+        const response = await fetch(`/api/users/${userId}/reviewedMovies`);
         const reviewedMoviesData = await response.json();
         console.log(reviewedMoviesData);
         setReviewedMovies(reviewedMoviesData);
@@ -71,7 +71,7 @@ function UserProfile({ userId, onLogout }) {
   const updateUserName = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3001/api/users/${userId}/username`, {
+      const response = await fetch(`/api/users/${userId}/username`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newUserName }),

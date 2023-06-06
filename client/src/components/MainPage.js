@@ -59,7 +59,7 @@ function MainPage({ userId }) {
     event.preventDefault();
     const movieTitle = apiData.Title;
     try {
-      const response = await fetch(`http://localhost:3001/api/users/review/${userId}`, {
+      const response = await fetch(`/api/users/review/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -88,16 +88,16 @@ function MainPage({ userId }) {
   };
 
   const offerButton = () => {
-      setClickedOfferButton(clickedOfferButton+1);
-    };
+    setClickedOfferButton(clickedOfferButton + 1);
+  };
 
-    const divStyle = {
-      backgroundImage: apiDataPoster,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    };
-    console.log(apiDataPoster)
-    
+  const divStyle = {
+    backgroundImage: apiDataPoster,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  };
+  console.log(apiDataPoster)
+
 
   return (
     clickedCommentButton ? (
@@ -122,10 +122,10 @@ function MainPage({ userId }) {
         </div>
         {isMovieInfoVisible && (
           <>
-          
+
             <div className="box-model">
               <div id="search.movies-container">
-              
+
                 <div>
                   <u>Title:</u> {apiData?.Title}
                 </div>
@@ -139,9 +139,9 @@ function MainPage({ userId }) {
                   <u>Starring:</u> {apiData?.Actors}
                 </div>
                 <div>
-                  <u>Promotional poster:</u> 
+                  <u>Promotional poster:</u>
                 </div>
-                <img id="poster" src={apiDataPoster} />
+                <img id="poster" src={apiDataPoster} alt="promotional poster" />
                 <br />
                 <div>
                   <u>Plot:</u>
@@ -166,7 +166,7 @@ function MainPage({ userId }) {
       </>
     )
   )
-        }
+}
 
 
 export default MainPage;
