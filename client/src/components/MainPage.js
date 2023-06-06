@@ -12,7 +12,7 @@ function MainPage({ userId }) {
 
   const fetchMovies = async (title) => {
     try {
-      const response = await fetch(`http://www.omdbapi.com/?apikey=8d6938b&t=${title}`);
+      const response = await fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${title}`);
       const movieData = await response.json();
       setApiData(movieData);
       setApiDataPoster(movieData.Poster)
@@ -91,14 +91,6 @@ function MainPage({ userId }) {
     setClickedOfferButton(clickedOfferButton + 1);
   };
 
-  const divStyle = {
-    backgroundImage: apiDataPoster,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  };
-  console.log(apiDataPoster)
-
-
   return (
     clickedCommentButton ? (
       <>
@@ -122,10 +114,8 @@ function MainPage({ userId }) {
         </div>
         {isMovieInfoVisible && (
           <>
-
             <div className="box-model">
               <div id="search.movies-container">
-
                 <div>
                   <u>Title:</u> {apiData?.Title}
                 </div>

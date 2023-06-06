@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('./model/User.js');
+const User = require('./model/user.js');
 
 const { MONGO_URL, PORT = 5000 } = process.env;
 

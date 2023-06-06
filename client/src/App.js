@@ -26,10 +26,10 @@ function App() {
 
   return (
     <div>
-      <h1>WELCOME! </h1>
-      <h1>Dear movie fanatics!</h1>
       {!isLoggedIn && (
         <>
+          <h1>WELCOME! </h1>
+          <h1>Dear movie fanatics!</h1>
           {showSignUp ?
             <UserSignUp onSignUpComplete={toggleSignUp} /> :
             <UserSignIn onLogin={handleLogin} onSignUp={toggleSignUp} />
