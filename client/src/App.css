@@ -19,13 +19,11 @@
   background-color: #000000da;
   color: white;
   font-weight: bold;
-  text-decoration: underline;
   padding: 20px;
   border: 3px solid #d2b48c;
   width: 300px;
   margin: 10 auto;
   text-align: center;
-
 }
 
 h1,
@@ -184,5 +182,5 @@ h2 {
 }
 
 .clickable-text:hover {
-  color: rgb(69, 139, 0);
+  color: rgb(0, 37, 139);
 }

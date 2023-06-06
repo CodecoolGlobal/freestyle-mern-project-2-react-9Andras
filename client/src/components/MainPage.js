@@ -58,13 +58,14 @@ function MainPage({ userId }) {
   const sendComment = async (event) => {
     event.preventDefault();
     const movieTitle = apiData.Title;
+    const movieId = apiData.imdbID;
     try {
       const response = await fetch(`/api/users/review/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ movieTitle, comment }),
+        body: JSON.stringify({ movieTitle, movieId, comment }),
       });
       const userData = await response.json();
       console.log(userData);

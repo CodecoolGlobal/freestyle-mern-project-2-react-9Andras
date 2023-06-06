@@ -13,6 +13,7 @@ const userSchema = new Schema({
   reviewedMovies: [
     {
       movieTitle: String,
+      movieId: String,
       comment: String,
     },
   ],

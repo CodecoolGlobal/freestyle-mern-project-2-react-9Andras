@@ -62,8 +62,8 @@ function UserProfile({ userId, onLogout }) {
   const renderReviewedMovies = () => {
     return reviewedMovies.map((movie) => (
       <div key={movie._id}>
-        <h3>{movie.movieTitle}</h3>
-        <p>{movie.comment}</p>
+        <h3><u>Title:</u> {movie.movieTitle}</h3>
+        <p>Comment: {movie.comment}</p>
       </div>
     ));
   };

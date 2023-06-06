@@ -109,9 +109,9 @@ const getReviewedMovies = async (req, res) => {
 const addReview = async (req, res) => {
   try {
     const { id } = req.params;
-    const { movieTitle, comment } = req.body;
+    const { movieTitle, movieId, comment } = req.body;
     const user = await User.findByIdAndUpdate(id, {
-      $push: { reviewedMovies: { movieTitle, comment } },
+      $push: { reviewedMovies: { movieTitle, movieId, comment } },
     }, { new: true });
     user.password = null;
     res.json(user);
