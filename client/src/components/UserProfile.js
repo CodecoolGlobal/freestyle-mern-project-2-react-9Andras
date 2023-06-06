@@ -70,16 +70,18 @@ function UserProfile({ userId, onLogout }) {
 
   const updateUserName = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(`/api/users/${userId}/username`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ newUserName }),
-      });
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
-    } catch (error) {
-      console.error('Error updating username:', error);
+    if (window.confirm('Confirm edit!')) {
+      try {
+        const response = await fetch(`/api/users/${userId}/username`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ newUserName }),
+        });
+        const updatedUser = await response.json();
+        setUserData(updatedUser);
+      } catch (error) {
+        console.error('Error updating username:', error);
+      }
     }
   };
 
