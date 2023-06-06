@@ -175,24 +175,28 @@ const deleteUser = async (req, res) => {
 };
 
 //Routes
-app.get('/api/users/', getUsers);
+app.route('/api/users')
+  .get(getUsers)
+  .post(saveUser);
 
-app.post('/api/users', saveUser);
+app.route('/api/users/login')
+  .post(loginUser);
 
-app.post('/api/users/login', loginUser);
+app.route('/api/users/:id')
+  .get(getUserProfile)
+  .patch(editUsername)
+  .delete(deleteUser);
 
-app.get('/api/users/:id', getUserProfile);
+app.route('/api/users/:id/reviewedMovies')
+  .get(getReviewedMovies);
 
-app.get('/api/users/:id/reviewedMovies', getReviewedMovies);
+app.route('/api/users/:id/favoriteMovies')
+  .get(getFavoriteMovies);
 
-app.get('/api/users/:id/favoroteMovies', getFavoriteMovies);
+app.route('/api/users/favorites/:id')
+  .patch(addToFavorites);
 
-app.patch('/api/users/favorites/:id', addToFavorites);
-
-app.patch('/api/users/review/:id', addReview);
-
-app.patch('/api/users/:id/username', editUsername);
-
-app.delete('/api/users/:id', deleteUser);
+app.route('/api/users/review/:id')
+  .patch(addReview);
 
 startServer();

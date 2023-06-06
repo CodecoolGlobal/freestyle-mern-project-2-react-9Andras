@@ -16,7 +16,6 @@ function UserProfile({ userId, onLogout }) {
         const response = await fetch(`/api/users/${userId}`);
         const userData = await response.json();
         setUserData(userData);
-        //console.log(userData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -75,7 +74,7 @@ function UserProfile({ userId, onLogout }) {
       setShowFavoriteMovies(false);
     } else {
       try {
-        const response = await fetch(`/api/users/${userId}/favoroteMovies`)
+        const response = await fetch(`/api/users/${userId}/favoriteMovies`)
         const favoriteMoviesData = await response.json();
         console.log(favoriteMoviesData);
         setFavoriteMovies(favoriteMoviesData)
