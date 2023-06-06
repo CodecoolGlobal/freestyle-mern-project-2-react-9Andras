@@ -7,6 +7,8 @@ function UserProfile({ userId, onLogout }) {
   const [showReviewedMovies, setShowReviewedMovies] = useState(false);
   const [newUserName, setNewUserName] = useState('');
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [showFavoriteMovies, setShowFavoriteMovies] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -68,6 +70,29 @@ function UserProfile({ userId, onLogout }) {
     ));
   };
 
+  const fetchFavoriteMovies = async () => {
+    if (showFavoriteMovies) {
+      setShowFavoriteMovies(false);
+    } else {
+      try {
+        const response = await fetch(`/api/users/${userId}/favoroteMovies`)
+        const favoriteMoviesData = await response.json();
+        console.log(favoriteMoviesData);
+        setFavoriteMovies(favoriteMoviesData)
+        setShowFavoriteMovies(true);
+      } catch (error) {
+        console.error('Error fetching favorite movies', error);
+      }
+    }
+  }
+  const renderFavoriteMovies = () => {
+    return favoriteMovies.map((movie) => (
+      <div key={movie._id}>
+        <h3><u>Title:</u> {movie.movieTitle}</h3>
+      </div>
+    ))
+  }
+
   const updateUserName = async (e) => {
     e.preventDefault();
     if (window.confirm('Confirm edit!')) {
@@ -110,6 +135,10 @@ function UserProfile({ userId, onLogout }) {
               <button type="submit">Update Username</button>
             </form>
           )}
+          <br />
+          <button onClick={fetchFavoriteMovies}>Favorite Movies</button>
+          <br />
+          {showFavoriteMovies && favoriteMovies.length > 0 && renderFavoriteMovies()}
           <br />
           <button onClick={fetchReviewedMovies}>Reviewed Movies</button>
           <br />

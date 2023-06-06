@@ -9,7 +9,12 @@ const userSchema = new Schema({
   password: String,
   createdAt: Date,
   updatedAt: Date,
-  favoriteMovies: [String],
+  favoriteMovies: [
+    {
+      movieTitle: String,
+      movieId: String,
+    },
+  ],
   reviewedMovies: [
     {
       movieTitle: String,

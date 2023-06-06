@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('./model/user.js');
+const User = require('./model/user.model.js');
 
 const { MONGO_URL, PORT = 5000 } = process.env;
 
@@ -94,6 +94,33 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+const addToFavorites = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { movieId, movieTitle } = req.body;
+    const user = await User.findByIdAndUpdate(id, {
+      $push: { favoriteMovies: { movieId, movieTitle } },
+    }, { new: true });
+    user.password = null;
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
+
+const getFavoriteMovies = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    const favoriteMovies = user.favoriteMovies.sort();
+    res.json(favoriteMovies);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ success: false });
+  }
+};
+
 const getReviewedMovies = async (req, res) => {
   try {
     const { id } = req.params;
@@ -157,6 +184,10 @@ app.post('/api/users/login', loginUser);
 app.get('/api/users/:id', getUserProfile);
 
 app.get('/api/users/:id/reviewedMovies', getReviewedMovies);
+
+app.get('/api/users/:id/favoroteMovies', getFavoriteMovies);
+
+app.patch('/api/users/favorites/:id', addToFavorites);
 
 app.patch('/api/users/review/:id', addReview);
 

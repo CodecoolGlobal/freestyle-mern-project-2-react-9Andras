@@ -76,6 +76,26 @@ function MainPage({ userId }) {
     setClickedCommentButton(false)
   };
 
+  const addToFavorites = async (event) => {
+    event.preventDefault();
+    if (window.confirm('Add to favorites?')) {
+      const movieId = apiData.imdbID;
+      const movieTitle = apiData.Title;
+      try {
+        const response = await fetch(`/api/users/favorites/${userId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ movieId, movieTitle }),
+        });
+        const userData = await response.json();
+        console.log(userData);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  };
 
   const backToSearch = () => {
     setIsMovieInfoVisible(false)
@@ -149,6 +169,7 @@ function MainPage({ userId }) {
                 <div>
                   <u>Revenue:</u> {apiData?.BoxOffice}
                 </div>
+                <button onClick={addToFavorites}>Add to favorites</button>
                 <button onClick={handleCommentButtonClick}>Comment it!</button>
               </div>
             </div>
