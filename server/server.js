@@ -174,6 +174,21 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserReviews = async (req, res) => {
+  try {
+    const movieId = req.params.movieId;
+    const users = await User.find({ 'reviewedMovies.movieId': movieId });
+    const reviews = users.map((user) => ({
+      username: user.userName,
+      review: user.reviewedMovies.find((movie) => movie.movieId === movieId).comment,
+    }));
+    res.json(reviews);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while fetching reviews.' });
+  }
+};
+
 //Routes
 app.route('/api/users')
   .get(getUsers)
@@ -199,21 +214,9 @@ app.route('/api/users/favorites/:id')
 app.route('/api/users/review/:id')
   .patch(addReview);
 
+app.route('api/reviews/:movieId')
+  .get(getUserReviews);
 
 
-app.get('/api/reviews/:movieId', async (req, res) => {
-  try {
-    const movieId = req.params.movieId;
-    const users = await User.find({ 'reviewedMovies.movieId': movieId });
-    const reviews = users.map((user) => ({
-      username: user.userName,
-      review: user.reviewedMovies.find((movie) => movie.movieId === movieId).comment,
-    }));
-    res.json(reviews);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'An error occurred while fetching reviews.' });
-  }
-});
 
 startServer();
