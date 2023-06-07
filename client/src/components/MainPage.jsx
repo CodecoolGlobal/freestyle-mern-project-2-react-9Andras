@@ -9,6 +9,8 @@ function MainPage({ userId }) {
   const [clickedCommentButton, setClickedCommentButton] = useState(false);
   const [clickedOfferButton, setClickedOfferButton] = useState(0);
   const [apiDataPoster, setApiDataPoster] = useState()
+  const [reviews, setReviews] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
 
   const fetchMovies = async (title) => {
     try {
@@ -19,6 +21,34 @@ function MainPage({ userId }) {
       console.log(movieData);
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`/api/reviews/${apiData.imdbID}`);
+      const reviews = await response.json();
+      setReviews(reviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
+
+  const renderReviews = () => {
+    return reviews.map((review, index) => (
+      <div key={index}>
+        <h4><u>{review.username}:</u></h4>
+        <p>{review.review}</p>
+      </div>
+    ));
+  };
+
+  const handleReviewsButtonClick = async () => {
+    if (showReviews) {
+      setShowReviews(false);
+    } else {
+      await fetchReviews();
+      setShowReviews(true);
     }
   };
 
@@ -171,6 +201,14 @@ function MainPage({ userId }) {
                 </div>
                 <button onClick={addToFavorites}>Add to favorites</button>
                 <button onClick={handleCommentButtonClick}>Comment it!</button>
+                <br />
+                <button onClick={handleReviewsButtonClick}>Reviews</button>
+                {showReviews && (
+                  <div>
+                    <h2><u>Reviews left by users:</u></h2>
+                    <p>{renderReviews()}</p>
+                  </div>
+                )}
               </div>
             </div>
           </>
