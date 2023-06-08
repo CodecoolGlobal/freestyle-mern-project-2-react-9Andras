@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function UserProfile({ userId, onLogout }) {
+function UserProfile({ userId, onLogout, setETitle }) {
   const [userData, setUserData] = useState({ name: '', userName: '' });
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [reviewedMovies, setReviewedMovies] = useState([]);
@@ -84,10 +84,17 @@ function UserProfile({ userId, onLogout }) {
       }
     }
   }
+
+  const handleFavMovies = (e) => {
+    setETitle(e.target.innerText)
+  }
+
   const renderFavoriteMovies = () => {
-    return favoriteMovies.map((movie) => (
+    return favoriteMovies.map((movie, index) => (
       <div key={movie._id}>
-        <h3><u>Title:</u> {movie.movieTitle}</h3>
+        <h3><u>Title:</u></h3>
+       <p onClick={handleFavMovies} key={index} class="clickable-text">{movie.movieTitle}</p>
+
       </div>
     ))
   }

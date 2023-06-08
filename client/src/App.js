@@ -9,6 +9,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
   const [showSignUp, setShowSignUp] = useState(false);
+  const [eTitle, setETitle] = useState('')
+  
 
   const handleLogin = (id) => {
     setIsLoggedIn(true);
@@ -41,8 +43,8 @@ function App() {
       )}
       {isLoggedIn && (
         <>
-          <UserProfile userId={userId} onLogout={handleLogOut} />
-          <MainPage userId={userId} />
+          <UserProfile userId={userId} onLogout={handleLogOut} setETitle={setETitle}/>
+          <MainPage userId={userId} eTitle={eTitle}/>
         </>
       )}
     </div>

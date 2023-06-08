@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 const API_KEY = '8d6938b';
 
-function MainPage({ userId }) {
+function MainPage({ userId , eTitle}) {
   const [apiData, setApiData] = useState(null);
   const [apiRandomData, setApiRandomData] = useState(null)
   const [isMovieInfoVisible, setIsMovieInfoVisible] = useState(false);
@@ -11,6 +11,11 @@ function MainPage({ userId }) {
   const [apiDataPoster, setApiDataPoster] = useState()
   const [reviews, setReviews] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
+
+  useEffect(() => {
+    fetchMovies(eTitle)
+    setIsMovieInfoVisible(true)
+  }, [eTitle]);
 
   const fetchMovies = async (title) => {
     try {
@@ -133,9 +138,9 @@ function MainPage({ userId }) {
   };
 
   const handleRecMov = (e) => {
-    e.preventDefault();
-    fetchMovies(e.target.innerText)
-    setIsMovieInfoVisible(true)
+    e.preventDefault()
+      fetchMovies(e.target.innerText)
+      setIsMovieInfoVisible(true)
   };
 
   const offerButton = () => {
