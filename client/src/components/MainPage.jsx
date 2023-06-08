@@ -24,7 +24,7 @@ function MainPage({ userId }) {
     }
   };
 
-  const fetchReviews = async () => {
+  const fetchReviews = async (movieId) => {
     try {
       const response = await fetch(`/api/reviews/${apiData.imdbID}`);
       const reviews = await response.json();
@@ -47,7 +47,7 @@ function MainPage({ userId }) {
     if (showReviews) {
       setShowReviews(false);
     } else {
-      await fetchReviews();
+      await fetchReviews(apiData?.imdbID);
       setShowReviews(true);
     }
   };
@@ -73,6 +73,7 @@ function MainPage({ userId }) {
 
   const handleInput = (event) => {
     fetchMovies(event.target.value)
+    setShowReviews(false);
     console.log(event.target.value)
     event.target.value.length === 0 ? setIsMovieInfoVisible(false) : setIsMovieInfoVisible(true)
   };
@@ -89,13 +90,14 @@ function MainPage({ userId }) {
     event.preventDefault();
     const movieTitle = apiData.Title;
     const movieId = apiData.imdbID;
+    const releaseYear = Number(apiData.Year);
     try {
       const response = await fetch(`/api/users/review/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ movieTitle, movieId, comment }),
+        body: JSON.stringify({ movieTitle, movieId, releaseYear, comment }),
       });
       const userData = await response.json();
       console.log(userData);
@@ -111,13 +113,14 @@ function MainPage({ userId }) {
     if (window.confirm('Add to favorites?')) {
       const movieId = apiData.imdbID;
       const movieTitle = apiData.Title;
+      const releaseYear = Number(apiData.Year);
       try {
         const response = await fetch(`/api/users/favorites/${userId}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ movieId, movieTitle }),
+          body: JSON.stringify({ movieId, movieTitle, releaseYear }),
         });
         const userData = await response.json();
         console.log(userData);
@@ -135,6 +138,7 @@ function MainPage({ userId }) {
   const handleRecMov = (e) => {
     e.preventDefault();
     fetchMovies(e.target.innerText)
+    setShowReviews(false);
     setIsMovieInfoVisible(true)
   };
 
@@ -206,7 +210,7 @@ function MainPage({ userId }) {
                 {showReviews && (
                   <div>
                     <h2><u>Reviews left by users:</u></h2>
-                    <p>{renderReviews()}</p>
+                    <div>{renderReviews()}</div>
                   </div>
                 )}
               </div>
