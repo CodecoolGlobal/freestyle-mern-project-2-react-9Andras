@@ -97,9 +97,9 @@ const getUserProfile = async (req, res) => {
 const addToFavorites = async (req, res) => {
   try {
     const { id } = req.params;
-    const { movieId, movieTitle } = req.body;
+    const { movieId, movieTitle, releaseYear } = req.body;
     const user = await User.findByIdAndUpdate(id, {
-      $push: { favoriteMovies: { movieId, movieTitle } },
+      $push: { favoriteMovies: { movieId, movieTitle, releaseYear } },
     }, { new: true });
     user.password = null;
     res.json(user);
@@ -136,9 +136,9 @@ const getReviewedMovies = async (req, res) => {
 const addReview = async (req, res) => {
   try {
     const { id } = req.params;
-    const { movieTitle, movieId, comment } = req.body;
+    const { movieTitle, movieId, releaseYear, comment } = req.body;
     const user = await User.findByIdAndUpdate(id, {
-      $push: { reviewedMovies: { movieTitle, movieId, comment } },
+      $push: { reviewedMovies: { movieTitle, movieId, releaseYear, comment } },
     }, { new: true });
     user.password = null;
     res.json(user);
@@ -214,9 +214,9 @@ app.route('/api/users/favorites/:id')
 app.route('/api/users/review/:id')
   .patch(addReview);
 
-app.route('api/reviews/:movieId')
+app.route('/api/reviews/:movieId')
   .get(getUserReviews);
 
-
-
 startServer();
+
+
