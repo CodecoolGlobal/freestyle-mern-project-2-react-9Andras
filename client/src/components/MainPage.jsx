@@ -14,7 +14,6 @@ function MainPage({ userId , eTitle}) {
 
   useEffect(() => {
     fetchMovies(eTitle)
-    setIsMovieInfoVisible(true)
   }, [eTitle]);
 
   const fetchMovies = async (title) => {

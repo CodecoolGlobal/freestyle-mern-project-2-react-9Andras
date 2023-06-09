@@ -30,6 +30,8 @@ h1,
 h2 {
   text-align: center;
   font-weight: bold;
+  -webkit-text-stroke: #000;
+  -webkit-text-stroke-width: 1px;
 }
 
 .form-container form {
@@ -182,5 +184,5 @@ h2 {
 }
 
 .clickable-text:hover {
-  color: rgb(175, 15, 15);
+  color: yellowgreen;
 }
