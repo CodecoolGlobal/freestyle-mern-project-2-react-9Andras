@@ -2,6 +2,18 @@
 ## Overview
 This project is built on the MERN (MongoDB, Express, React, Node.js) stack and is designed to efficiently manage movie data. It provides a search feature using a third-party API that allows you to browse and search for movies.
 
+# Technology Stack
+## Frontend:
+JavaScript/ES6
+React
+HTML/CSS
+## Backend:
+Node.js
+Express.js
+MongoDB
+Mongoose
+This project demonstrates the use of the MERN stack for efficient movie searching.
+
 ## Server side
 ### Install Dependencies
 cd ./server
@@ -32,14 +44,4 @@ cd ./client
 npm start
 The create-react-app react-scripts package will start your frontend on port 3000, and you can access it at http://localhost:3000 in your preferred browser.
 
-# Technology Stack
-## Frontend:
-JavaScript/ES6
-React
-HTML/CSS
-## Backend:
-Node.js
-Express.js
-MongoDB
-Mongoose
-This project demonstrates the use of the MERN stack for efficient movie searching.
+
